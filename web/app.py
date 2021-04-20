@@ -25,7 +25,7 @@ def verifyPassword(username, password):
         "username": username
     })[0]["password"]
 
-    if bcrypt.hashpw(password.encode("utf8"), bcrypt.gensalt()) == hashed_pw:
+    if bcrypt.checkpw(hashed_pw, password):
         return True    
     
     return False
@@ -106,7 +106,7 @@ class Retrieve(Resource):
 
         num_tokens = countTokens(username)
 
-        if verifyPassword(username, password) != False:
+        if verifyPassword(username, password) == False:
             retJson = {
                 "status": 302,
                 "msg": "incorrect password"
